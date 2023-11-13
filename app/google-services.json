@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "666064092751",
+    "project_id": "edusphere-d9551",
+    "storage_bucket": "edusphere-d9551.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:666064092751:android:f2af5d2b046e9e23cb343a",
+        "android_client_info": {
+          "package_name": "com.kygoinc.edusphere"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlZvj65PJAFg0M8R4FiA3JNbEDR-fdu5s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

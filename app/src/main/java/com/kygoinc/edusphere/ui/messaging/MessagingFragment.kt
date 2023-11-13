@@ -7,14 +7,17 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
+import com.kygoinc.edusphere.adapters.MessagingViewPagerAdapter
 import com.kygoinc.edusphere.databinding.FragmentMessagingBinding
 
 class MessagingFragment : Fragment() {
 
+    private lateinit var  viewPager: ViewPager2
+    private lateinit var tabLayout: TabLayout
     private var _binding: FragmentMessagingBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -22,17 +25,27 @@ class MessagingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+        _binding  = FragmentMessagingBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        _binding = FragmentMessagingBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        return root
+        tabLayout=binding.tabLayout
+        viewPager =binding.viewPager
+        val pagerAdapter = MessagingViewPagerAdapter(childFragmentManager,viewLifecycleOwner.lifecycle)
+        viewPager.adapter=pagerAdapter
+
+        TabLayoutMediator(tabLayout,viewPager){tab,position->
+            tab.text= when(position){
+                0 ->"Chats"
+                1 -> "Communities"
+                2 -> "Friends"
+                else -> null
+            }
+
+        }.attach()
     }
 
     override fun onDestroyView() {
