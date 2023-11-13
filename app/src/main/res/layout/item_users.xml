@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/LayoutUser"
+    android:paddingHorizontal="@dimen/_8sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imgChatUserProfile"
+        android:layout_width="@dimen/_36sdp"
+        android:layout_height="@dimen/_36sdp"
+        android:background="@drawable/user_profile"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <TextView
+        android:id="@+id/txvChatUserName"
+        android:text="Username"
+        android:textStyle="bold"
+        android:textSize="@dimen/_14sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:textColor="@color/primary_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/imgChatUserProfile"
+        app:layout_constraintStart_toEndOf="@id/imgChatUserProfile"/>
+    <TextView
+        android:id="@+id/txvChatMessage"
+        android:text="You have received this message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/secondary_text"
+        app:layout_constraintTop_toBottomOf="@id/txvChatUserName"
+        app:layout_constraintStart_toStartOf="@id/txvChatUserName"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

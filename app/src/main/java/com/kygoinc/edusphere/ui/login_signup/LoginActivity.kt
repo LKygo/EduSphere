@@ -24,6 +24,7 @@ class LoginActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        firebaseAuth = FirebaseAuth.getInstance()
 
         binding.txvSignup.setOnClickListener {
             val intent = Intent(this, SignupActivity::class.java)
@@ -53,6 +54,8 @@ class LoginActivity : AppCompatActivity() {
                     .setAnchorView(R.id.btnLogin).show()
             }
         }
+        //        Underline for txvSignUp
+        binding.txvSignup.paint.isUnderlineText = true
 
     }
 }

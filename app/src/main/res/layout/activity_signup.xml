@@ -8,6 +8,33 @@
     tools:context=".ui.login_signup.SignupActivity">
 
 
+    <TextView
+        android:id="@+id/txvHeyThere"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_40sdp"
+        android:text="@string/heythere"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/_18ssp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txvSUContinue"
+        android:text="@string/sign_up_to_continue"
+        android:textSize="@dimen/_12ssp"
+        android:textColor="@color/secondary_text"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txvHeyThere" />
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/userNameLayout"
@@ -15,13 +42,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="@dimen/_120sdp"
+        android:layout_marginTop="@dimen/_40sdp"
         app:boxStrokeColor="@color/blue_800"
         app:hintTextColor="@color/blue_700"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/txvSUContinue">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtSUsername"
@@ -120,10 +147,10 @@
         app:layout_constraintVertical_bias="0.00999999" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/txvSignIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Already a member? Sign in"
+        android:text="@string/already_a_member_sign_in"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -131,5 +158,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnSignup"
         app:layout_constraintVertical_bias="0.060000002" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

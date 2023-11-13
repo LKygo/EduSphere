@@ -11,4 +11,8 @@
     <string name="title_search">Search</string>
     <string name="log_in_to_continue">Log in to continue\n</string>
     <string name="welcome_back">Welcome back</string>
+    <string name="heythere">Hey There</string>
+    <string name="sign_up_to_continue">Sign up to continue</string>
+    <string name="already_a_member_sign_in">Already a member? Sign in</string>
+    <string name="username">username\n</string>
 </resources>

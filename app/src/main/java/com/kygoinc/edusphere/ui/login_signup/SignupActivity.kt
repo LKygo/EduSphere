@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.text.intl.Locale
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.snackbar.Snackbar
@@ -26,7 +25,11 @@ class SignupActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_signup)
+        binding = ActivitySignupBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+
+
 
         firebaseAuth = FirebaseAuth.getInstance()
 
@@ -50,7 +53,7 @@ class SignupActivity : AppCompatActivity() {
                                 userHashMap["username"] = username
                                 userHashMap["profile"] = "https://firebasestorage.googleapis.com/v0/b/symphony-job-pin.appspot.com/o/user%20(1).png?alt=media&token=32a980a6-1bd0-43b6-aa25-55b57ec527f6"
                                 userHashMap["status"] = "offline"
-                                userHashMap["search"] = username.lowercase(Locale.getDefault())
+                                userHashMap["search"] = username.lowercase(java.util.Locale.getDefault())
                                 userHashMap["uid"] = firebaseUserId
                                 userHashMap["uid"] = firebaseUserId
                                 userHashMap["uid"] = firebaseUserId
@@ -88,5 +91,7 @@ class SignupActivity : AppCompatActivity() {
             }
 
         }
+        //        Underline for txvSignUp
+        binding.txvSignIn.paint.isUnderlineText = true
     }
 }

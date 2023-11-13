@@ -1,4 +1,4 @@
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
+    @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -60,15 +60,17 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     // Import the BoM for the Firebase platform
-//    implementation platform("com.google.firebase:firebase-bom:31.2.3")
+//    implementation (platform("com.google.firebase:firebase-bom:31.2.3"))
+//    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
 
     //  Lottie files
     implementation (libs.lottie)
 //    implementation 'com.google.firebase:firebase-core'
-    implementation ("com.google.firebase:firebase-auth")
-    implementation ("com.google.firebase:firebase-storage-ktx")
-    implementation ("com.google.firebase:firebase-database-ktx")
-    implementation ("com.google.firebase:firebase-messaging")
+//    implementation ("com.google.firebase:firebase-auth")
+//    implementation ("com.google.firebase:firebase-storage-ktx")
+//    implementation ("com.google.firebase:firebase-database-ktx")
+//    implementation ("com.google.firebase:firebase-messaging")
+//    implementation ('com.google.firebase:firebase-database:20.3.0)
 
     // Scalable size unit  for different screen sizes
     implementation ("com.intuit.sdp:sdp-android:1.0.6")
@@ -77,6 +79,6 @@ dependencies {
     implementation ("de.hdodenhof:circleimageview:2.2.0")
     implementation ("com.squareup.picasso:picasso:2.71828")
     implementation ("androidx.cardview:cardview:1.0.0")
-    implementation ("com.github.bumptech.glide:glide:4.9.0")
+    implementation ("com.github.bumptech.glide:glide:4.15.1")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.9.0")
 }

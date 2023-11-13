@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/blue_700"
-        android:text=" Symphony"
+        android:text=" EduSphere"
         android:letterSpacing="0.03"
         app:layout_constraintBaseline_toBaselineOf="@+id/txvWelcome"
         app:layout_constraintStart_toEndOf="@+id/txvWelcome"
