@@ -69,7 +69,7 @@
             android:background="@drawable/round_button"
             android:backgroundTint="@android:color/white"
             android:hint="Type a message..."
-            android:inputType="textShortMessage"
+            android:inputType="text|textShortMessage|textCapSentences"
             android:padding="10dp"
             android:singleLine="true" />
 

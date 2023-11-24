@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="bottom_nav_theme">
+        <item name="colorSecondaryContainer">@color/blue_100</item>
+        <item name="android:colorSecondary">@color/blue_700</item>
+        <!--      Unselected item colour-->
+        <item name="colorOnPrimary">@color/blue_700</item>
+        <!--      Unselected item text colour-->
+        <item name="android:textColorSecondary">@color/blue_700</item>
+
+    </style>
+</resources>

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imgProfile"
-        android:layout_width="@dimen/_36sdp"
-        android:layout_height="@dimen/_36sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:background="@drawable/user_profile"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+<!--    <de.hdodenhof.circleimageview.CircleImageView-->
+<!--        android:id="@+id/imgProfile"-->
+<!--        android:layout_width="@dimen/_28sdp"-->
+<!--        android:layout_height="@dimen/_28sdp"-->
+<!--        android:layout_marginTop="@dimen/_10sdp"-->
+<!--        android:background="@drawable/user_profile"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        />-->
 
     <TextView
         android:id="@+id/txvMessage"
@@ -20,10 +20,11 @@
         android:maxWidth="@dimen/_150sdp"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/imgProfile"
-        app:layout_constraintStart_toEndOf="@id/imgProfile"
+        android:layout_margin="@dimen/_4sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         android:background="@drawable/receive_round_box"
-        android:padding="14dp"
+        android:padding="@dimen/_8sdp"
         android:text="This is a sample message that will appear"
         android:textColor="@android:color/secondary_text_dark"
         android:textSize="14sp"

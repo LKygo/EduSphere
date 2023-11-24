@@ -2,6 +2,7 @@ package com.kygoinc.edusphere.ui.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +14,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.kygoinc.edusphere.R
 import com.kygoinc.edusphere.adapters.ChatAdapter
 import com.kygoinc.edusphere.databinding.ActivityConversationBinding
 import com.kygoinc.edusphere.models.Chat
@@ -73,6 +73,7 @@ class ConversationActivity : AppCompatActivity() {
 
             }
         }
+
         binding.btnSend.setOnClickListener {
             var message = binding.edtComposeMessage.text.toString()
 
@@ -119,6 +120,7 @@ class ConversationActivity : AppCompatActivity() {
                     }
                 }
                 val chatAdapter = ChatAdapter(this@ConversationActivity, chatList)
+                Log.d("chat", chatList.toString())
                 chatRecycler.adapter = chatAdapter
                 chatRecycler.scrollToPosition(chatAdapter.itemCount - 1)
 
@@ -126,7 +128,7 @@ class ConversationActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                Log.d("chat", error.message)
             }
         })
     }

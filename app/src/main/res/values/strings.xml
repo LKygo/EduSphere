@@ -15,4 +15,7 @@
     <string name="sign_up_to_continue">Sign up to continue</string>
     <string name="already_a_member_sign_in">Already a member? Sign in</string>
     <string name="username">username\n</string>
+    <string name="groupname">group name\n</string>
+    <string name="Add_participants">Add participants</string>
+    <string name="add_participants">Add participants\n</string>
 </resources>

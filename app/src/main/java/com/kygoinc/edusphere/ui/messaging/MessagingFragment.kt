@@ -1,5 +1,6 @@
 package com.kygoinc.edusphere.ui.messaging
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,16 +9,21 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.kygoinc.edusphere.R
 import com.kygoinc.edusphere.adapters.MessagingViewPagerAdapter
 import com.kygoinc.edusphere.databinding.FragmentMessagingBinding
+import com.kygoinc.edusphere.models.GroupI
+import com.kygoinc.edusphere.models.GroupInfo
 import com.kygoinc.edusphere.ui.login_signup.LoginActivity
 
 
@@ -29,9 +35,7 @@ class MessagingFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMessagingBinding.inflate(inflater, container, false)
 
@@ -60,6 +64,11 @@ class MessagingFragment : Fragment() {
                 return true
             }
 
+            R.id.createGroup -> {
+                showCreateGroupDialog()
+                return true
+            }
+
             R.id.settings -> {
                 Toast.makeText(requireContext(), "Settings", Toast.LENGTH_SHORT).show()
 //
@@ -72,6 +81,73 @@ class MessagingFragment : Fragment() {
         }
         return false
     }
+
+    private fun showCreateGroupDialog() {
+
+        // Create dialog to get group name
+        val dialog =
+            AlertDialog.Builder(requireContext(), R.style.AlertDialog).setTitle("Create Group")
+        val groupName = EditText(requireContext())
+        groupName.hint = "Group Name"
+
+        dialog.setView(groupName)
+        dialog.setMessage("Enter group name").setPositiveButton("Create",
+            DialogInterface.OnClickListener() { dialogInterface: DialogInterface, i: Int ->
+                val groupN = groupName.text.toString()
+                if (groupN.isEmpty()) {
+                    Toast.makeText(
+                        requireContext(), "Please enter a group name", Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    createNewGroup(groupN)
+                }
+            }).setNegativeButton("Cancel",
+            DialogInterface.OnClickListener() { dialogInterface: DialogInterface, i: Int ->
+                dialogInterface.cancel()
+            })
+        dialog.show()
+
+
+    }
+
+    private fun createNewGroup(groupN: String) {
+        // Get the current user's ID
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+
+        // Reference to the "groups" node in Firebase Realtime Database
+        val groupRef = FirebaseDatabase.getInstance().getReference("Groups")
+
+        // Create a unique key for the new group
+
+        val newGroupRef = groupRef.push()
+
+// Clean key path and remove invalid characters
+        val sanitizedKey = newGroupRef.key?.replace("[.#$]".toRegex(), "")
+        val groupInfo = GroupI(sanitizedKey!!, groupN)
+
+        // Set the value of the new group in the database
+        newGroupRef.setValue(groupInfo)
+
+        // Create a list of members (initially only the user who created the group)
+
+        val members = mutableListOf<String>()
+        members.add(userId!!)
+
+        // Set the list of members for the new group in the database
+
+        FirebaseDatabase.getInstance().getReference("Groups/$sanitizedKey/members")
+            .setValue(members).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Toast.makeText(
+                        requireContext(), "$groupN has been successfully created", Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Toast.makeText(requireContext(), "Error creating group", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -100,3 +176,5 @@ class MessagingFragment : Fragment() {
         _binding = null
     }
 }
+
+

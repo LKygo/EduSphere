@@ -8,10 +8,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.ValueEventListener
 import com.kygoinc.edusphere.R
 import com.kygoinc.edusphere.models.Chat
-import de.hdodenhof.circleimageview.CircleImageView
+import com.kygoinc.edusphere.models.GroupChat
 
 class ChatAdapter(private val context: Context, private val chatList: ArrayList<Chat>) :
     RecyclerView.Adapter<ChatAdapter.ViewHolder>() {

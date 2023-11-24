@@ -27,6 +27,7 @@ class UserAdapter(private val context: Context, private val userList: ArrayList<
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
        val user = userList[position]
         holder.userName.text = user.username
+        holder.userAbout.text = user.about
 //        Glide.with(context).load(user.profile).placeholder(R.drawable.user_profile).into(holder.userProfile)
         Glide.with(context).load(user.profile).into(holder.userProfile)
 
@@ -47,7 +48,8 @@ class UserAdapter(private val context: Context, private val userList: ArrayList<
 
         val userName: TextView = view.findViewById(R.id.txvChatUserName)
         val userProfile: CircleImageView = view.findViewById(R.id.imgChatUserProfile)
-        val userMessage: TextView = view.findViewById(R.id.txvChatMessage)
+        val userAbout : TextView = view.findViewById(R.id.txvChatMessage)
+//        val userMessage: TextView = view.findViewById(R.id.txvChatMessage)
         val userLayout : ConstraintLayout = view.findViewById(R.id.LayoutUser)
 
     }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="bottom_nav_theme">
+        <item name="colorSecondaryContainer">@color/blue_100</item>
+        <item name="colorSecondary">@color/blue_700</item>
+<!--      Unselected item colour-->
+        <item name="colorOnPrimary">@color/blue_700</item>
+        <!--      Unselected item text colour-->
+        <item name="android:textColorSecondary">@color/blue_700</item>
+
+    </style>
+
+    <style name="AlertDialog" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="colorPrimary">@color/blue_300</item>
+        <item name="colorPrimaryDark">@color/blue_300</item>
+        <item name="colorAccent">@color/blue_200</item>
+        <item name="android:textColorPrimary">@color/blue_700</item>
+        <item name="android:background">@color/white_600</item>
+    </style>
+</resources>

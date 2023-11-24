@@ -53,10 +53,11 @@ class SignupActivity : AppCompatActivity() {
                                 userHashMap["username"] = username
                                 userHashMap["profile"] = "https://firebasestorage.googleapis.com/v0/b/symphony-job-pin.appspot.com/o/user%20(1).png?alt=media&token=32a980a6-1bd0-43b6-aa25-55b57ec527f6"
                                 userHashMap["status"] = "offline"
+                                userHashMap["about"] = "Hey! I'm new to EduSphere"
+                                userHashMap["interests"] = ""
+                                userHashMap["phone"] = ""
                                 userHashMap["search"] = username.lowercase(java.util.Locale.getDefault())
-                                userHashMap["uid"] = firebaseUserId
-                                userHashMap["uid"] = firebaseUserId
-                                userHashMap["uid"] = firebaseUserId
+
 
                                 refUsers.updateChildren(userHashMap).addOnCompleteListener { task ->
                                     if (task.isSuccessful){

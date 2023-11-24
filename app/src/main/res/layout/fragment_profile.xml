@@ -3,20 +3,227 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".ui.profile.ProfileFragment">
 
-    <TextView
-        android:id="@+id/text_notifications"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/blue_500"
+        app:civ_border_color="@color/blue_800"
+        app:civ_border_width="@dimen/_5sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/title_profile"
+        app:titleTextColor="@color/white_200" />
+
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/my_toolbar"
+        tools:layout_editor_absoluteX="-127dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintInner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imgUserImage"
+                android:layout_width="@dimen/_150sdp"
+                android:layout_height="@dimen/_150sdp"
+                android:layout_marginTop="@dimen/_40sdp"
+                android:src="@drawable/pp_placeholder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/constraintInner" />
+
+
+            <ImageView
+                android:id="@+id/imgProfileIcon"
+                android:layout_width="@dimen/_48sdp"
+                android:layout_height="@dimen/_48sdp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:padding="@dimen/_14sdp"
+                android:src="@drawable/user_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/txvProfileName" />
+
+
+            <ImageView
+                android:id="@+id/imgEditName"
+                android:layout_width="@dimen/_48sdp"
+                android:layout_height="@dimen/_48sdp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:padding="@dimen/_14sdp"
+                android:src="@drawable/edit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/txvProfileName" />
+
+            <TextView
+                android:id="@+id/txvProfileName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:text="Name"
+                android:textColor="@color/blue_200"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintStart_toEndOf="@id/imgProfileIcon"
+                app:layout_constraintTop_toBottomOf="@+id/imgUserImage" />
+
+            <EditText
+                android:id="@+id/edtUserName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="User Name"
+                android:textColor="@color/white_800"
+                android:textColorHint="@color/white_700"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintEnd_toStartOf="@+id/imgEditName"
+                app:layout_constraintStart_toStartOf="@id/txvProfileName"
+                app:layout_constraintTop_toBottomOf="@+id/txvProfileName" />
+
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/dvdName"
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/_14sdp"
+                android:backgroundTint="@color/blue_100"
+                app:layout_constraintStart_toStartOf="@id/txvProfileName"
+                app:layout_constraintTop_toBottomOf="@+id/edtUserName" />
+
+            <ImageView
+                android:id="@+id/imgAboutIcon"
+                android:layout_width="@dimen/_48sdp"
+                android:layout_height="@dimen/_48sdp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:padding="@dimen/_14sdp"
+                android:src="@drawable/info"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/txvAbout" />
+
+
+            <ImageView
+                android:id="@+id/imgEditAbout"
+                android:layout_width="@dimen/_48sdp"
+                android:layout_height="@dimen/_48sdp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:padding="@dimen/_14sdp"
+                android:src="@drawable/edit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/txvAbout" />
+
+            <TextView
+                android:id="@+id/txvAbout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_14sdp"
+                android:text="About"
+                android:textColor="@color/blue_200"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintStart_toEndOf="@id/imgAboutIcon"
+                app:layout_constraintTop_toBottomOf="@+id/dvdName" />
+
+            <EditText
+                android:id="@+id/edtAbout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="This is a default about me"
+                android:textColor="@color/white_800"
+                android:textColorHint="@color/white_700"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintEnd_toStartOf="@+id/imgEditAbout"
+                app:layout_constraintStart_toStartOf="@id/txvAbout"
+                app:layout_constraintTop_toBottomOf="@+id/txvAbout" />
+
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/dvdAbout"
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/_14sdp"
+                android:backgroundTint="@color/blue_100"
+                app:layout_constraintStart_toStartOf="@id/txvAbout"
+                app:layout_constraintTop_toBottomOf="@+id/edtAbout" />
+
+            <ImageView
+                android:id="@+id/imgPhoneIcon"
+                android:layout_width="@dimen/_48sdp"
+                android:layout_height="@dimen/_48sdp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:padding="@dimen/_14sdp"
+                android:src="@drawable/phone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/txvPhone" />
+
+            <ImageView
+                android:id="@+id/imgEditPhone"
+                android:layout_width="@dimen/_48sdp"
+                android:layout_height="@dimen/_48sdp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:padding="@dimen/_14sdp"
+                android:src="@drawable/edit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/txvPhone" />
+
+            <TextView
+                android:id="@+id/txvPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_14sdp"
+                android:text="Phone"
+                android:textColor="@color/blue_200"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintStart_toEndOf="@id/imgPhoneIcon"
+                app:layout_constraintTop_toBottomOf="@+id/dvdAbout" />
+
+            <EditText
+                android:id="@+id/edtPhone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="254 725 083289"
+                android:textColor="@color/white_800"
+                android:textColorHint="@color/white_700"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintEnd_toStartOf="@+id/imgEditPhone"
+                app:layout_constraintStart_toStartOf="@id/txvPhone"
+                app:layout_constraintTop_toBottomOf="@+id/txvPhone" />
+
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/dvdPhone"
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/_14sdp"
+                android:backgroundTint="@color/blue_100"
+                app:layout_constraintStart_toStartOf="@id/txvPhone"
+                app:layout_constraintTop_toBottomOf="@+id/edtPhone" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnUpdate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:text="Update"
+                app:layout_constraintTop_toBottomOf="@id/dvdPhone" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--#1696DD66-->

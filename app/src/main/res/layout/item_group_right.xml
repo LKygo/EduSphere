@@ -1,0 +1,49 @@
+<!-- item_left.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layoutDirection="rtl"
+    android:paddingVertical="8dp">
+
+    <!-- Profile Picture -->
+    <ImageView
+        android:id="@+id/imgProfile"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_width="@dimen/_28sdp"
+        android:layout_height="@dimen/_28sdp"
+        android:layout_marginEnd="4dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/user_profile" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/send_round_box"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/_4sdp"
+        android:paddingVertical="@dimen/_2sdp">
+
+        <!-- Username -->
+        <TextView
+            android:id="@+id/txvGUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Username"
+            android:visibility="gone"
+            android:textColor="@android:color/secondary_text_dark"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <!-- Message -->
+        <TextView
+            android:id="@+id/txvGMessage"
+            android:padding="@dimen/_4sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="@dimen/_150sdp"
+            android:text="This is a sample message that will appear"
+            android:textColor="@android:color/secondary_text_dark"
+            android:textSize="14sp" />
+    </LinearLayout>
+</LinearLayout>

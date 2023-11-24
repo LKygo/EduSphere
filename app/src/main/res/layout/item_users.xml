@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/LayoutUser"
+    android:paddingTop="@dimen/_8sdp"
     android:paddingHorizontal="@dimen/_8sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -19,7 +20,7 @@
         android:textStyle="bold"
         android:textSize="@dimen/_14sdp"
         android:layout_marginStart="@dimen/_10sdp"
-        android:textColor="@color/primary_text"
+        android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@id/imgChatUserProfile"
