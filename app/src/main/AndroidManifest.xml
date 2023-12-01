@@ -2,6 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<!--    Read media images and videos permission-->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,11 +24,33 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EduSphere"
         tools:targetApi="31">
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.kygoinc.edusphere.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
+
+        <activity
+            android:name=".ui.activities.HistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.TaskActivity"
+            android:exported="false" /> <!-- <provider -->
+
+        <activity
+            android:name=".ui.activities.UserInfo"
+            android:exported="true" />
+        <activity
+            android:name=".ui.activities.GroupInfo"
+            android:exported="true" />
         <activity
             android:name=".ui.activities.AddParticipantsActivity"
-            android:theme="@style/Theme.EduSphere"
-            android:exported="true" />
-
+            android:exported="true"
+            android:theme="@style/Theme.EduSphere" />
         <activity
             android:name=".ui.activities.GroupChatActivity"
             android:exported="false" />
@@ -42,7 +76,17 @@
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"/>
+
+            <provider
+                android:name="androidx.core.content.FileProvider"
+                android:authorities="${applicationId}.file-provider"
+                android:exported="false"
+                android:grantUriPermissions="true">
+                <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/file_paths" />
+            </provider>
     </application>
 
 </manifest>

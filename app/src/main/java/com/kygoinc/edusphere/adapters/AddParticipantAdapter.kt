@@ -46,16 +46,18 @@ class AddParticipantAdapter(
 
         // Set background color based on whether the user is selected
         if (addParticipantList.contains(user)) {
-            holder.userLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.blue_700))
+            holder.userProfile.setImageResource(R.drawable.check)
         } else {
-            holder.userLayout.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
+            Glide.with(context).load(user.profile).into(holder.userProfile)
         }
 
         holder.userLayout.setOnClickListener {
             // Toggle user selection on click
             if (addParticipantList.contains(user)) {
+                Glide.with(context).load(user.profile).into(holder.userProfile)
                 addParticipantList.remove(user)
             } else {
+                holder.userProfile.setImageResource(R.drawable.check)
                 addParticipantList.add(user)
             }
 

@@ -1,83 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.search.SearchFragment">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/svCard"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        app:titleTextColor="@android:color/white"
+        app:title="Todo"
+        android:background="?attr/colorPrimary"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/_8sdp"
-        android:orientation="horizontal"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="8dp"
-        app:cardUseCompatPadding="true"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content"/>
 
-
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/searchView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:iconifiedByDefault="false"
-            app:queryBackground="@android:color/transparent"
-            app:queryHint="Search for resource" />
-
-    </androidx.cardview.widget.CardView>
-
-    <com.google.android.material.chip.ChipGroup
-        app:chipSpacing="@dimen/_8sdp"
-        app:chipSpacingHorizontal="@dimen/_8sdp"
-        android:id="@+id/chipGroup"
-        android:paddingHorizontal="@dimen/_8sdp"
-        app:singleSelection="true"
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@+id/toolbar"
+        android:id="@+id/todoRv"
+        tools:itemCount="3"
+        android:padding="8dp"
+        tools:listitem="@layout/item_todo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/svCard">
+        android:layout_height="wrap_content"/>
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipVideo"
-            android:textColor="@color/blue_400"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Videos"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_alignParentBottom="true"
+        android:id="@+id/fabAddTask"
+        android:layout_margin="32dp"
+        android:backgroundTint="@color/blue_300"
+        android:src="@drawable/ic_add_white_24dp"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipImages"
-            android:textColor="@color/blue_400"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Images"/>
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipPDFs"
-            android:textColor="@color/blue_400"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="PDFs"/>
-        <com.google.android.material.chip.Chip
-            android:textColor="@color/blue_400"
-
-            android:id="@+id/chipPowerPoints"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="PowerPoints"/>
-    </com.google.android.material.chip.ChipGroup>
-
-  <TextView
-      android:id="@+id/txvSortBy"
-      app:layout_constraintTop_toBottomOf="@id/chipGroup"
-      app:layout_constraintStart_toStartOf="parent"
-      android:layout_marginStart="@dimen/_8sdp"
-      android:text="Sort by: "
-      android:textSize="@dimen/_10sdp"
-      android:textColor="@color/white_800"
-      android:maxHeight="@dimen/_18sdp"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

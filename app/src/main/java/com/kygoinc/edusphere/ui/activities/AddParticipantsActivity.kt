@@ -56,10 +56,12 @@ class AddParticipantsActivity : AppCompatActivity(), OnParticipantListChangeList
 //            call function to add users to members under group node in firebase
             addParticipantsToGroup(groupId, addPartisipantList)
             Log.d("groupid", groupId)
+
         }
 
 
     }
+
 
     private fun addParticipantsToGroup(groupKey: String, participantsList: List<User>) {
         // Get a reference to the group's members node
@@ -103,6 +105,7 @@ class AddParticipantsActivity : AppCompatActivity(), OnParticipantListChangeList
                         "Participants added to the group",
                         Toast.LENGTH_SHORT
                     ).show()
+                    finish()
                 }
             }
 

@@ -23,7 +23,7 @@
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
-        android:id="@+id/navigation_search"
+        android:id="@+id/navigation_todo"
         android:name="com.kygoinc.edusphere.ui.search.SearchFragment"
         android:label="@string/title_search"
         tools:layout="@layout/fragment_search" />

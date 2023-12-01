@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("com.google.gms.google-services")
+    id("kotlin-kapt")
+
 }
 
 android {
@@ -55,6 +57,8 @@ dependencies {
     implementation(libs.firebase.messaging.ktx)
     implementation(libs.androidx.ui.text.android)
     implementation(libs.firebase.database)
+    implementation(libs.firebase.storage.ktx)
+//    implementation(libs.androidx.room)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -65,6 +69,20 @@ dependencies {
 
     //  Lottie files
     implementation (libs.lottie)
+
+//    Room DB
+//    implementation(libs.androidx.room.runtime)
+//    implementation (libs.androidx.room.ktx)
+//    annotationProcessor(libs.androidx.room.compiler)
+
+    implementation ("androidx.room:room-runtime:2.6.1")
+    implementation ("androidx.room:room-ktx:2.6.1")
+    kapt ("androidx.room:room-compiler:2.6.1")
+
+//    Coroutines
+    implementation (libs.kotlinx.coroutines.android)
+
+    // Firebase dependencies
 //    implementation 'com.google.firebase:firebase-core'
 //    implementation ("com.google.firebase:firebase-auth")
 //    implementation ("com.google.firebase:firebase-storage-ktx")
@@ -73,12 +91,12 @@ dependencies {
 //    implementation ('com.google.firebase:firebase-database:20.3.0)
 
     // Scalable size unit  for different screen sizes
-    implementation ("com.intuit.sdp:sdp-android:1.0.6")
-    implementation ("com.intuit.ssp:ssp-android:1.0.6")
+    implementation (libs.sdp.android)
+    implementation (libs.ssp.android)
 //    Other dependencies
-    implementation ("de.hdodenhof:circleimageview:2.2.0")
-    implementation ("com.squareup.picasso:picasso:2.71828")
-    implementation ("androidx.cardview:cardview:1.0.0")
-    implementation ("com.github.bumptech.glide:glide:4.15.1")
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.9.0")
+    implementation (libs.circleimageview)
+    implementation (libs.picasso)
+    implementation (libs.androidx.cardview)
+    implementation (libs.glide)
+    annotationProcessor (libs.compiler)
 }

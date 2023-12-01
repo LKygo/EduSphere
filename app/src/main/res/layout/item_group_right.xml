@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:maxWidth="@dimen/_150sdp"
             android:text="This is a sample message that will appear"
-            android:textColor="@android:color/secondary_text_dark"
+            android:textColor="@color/white_300"
             android:textSize="14sp" />
     </LinearLayout>
 </LinearLayout>

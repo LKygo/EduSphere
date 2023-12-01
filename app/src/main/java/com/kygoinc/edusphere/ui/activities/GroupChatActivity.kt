@@ -1,5 +1,6 @@
 package com.kygoinc.edusphere.ui.activities
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -7,7 +8,10 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -56,12 +60,20 @@ class GroupChatActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+
         gChatRecycler = binding.rcvGChatRecycler
 
         gChatRecycler.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
         var intent = intent
         groupId = intent.getStringExtra("key").toString()
+
+
+        binding.convGroupName.setOnClickListener{
+            val intent = Intent(this, GroupInfo::class.java)
+            intent.putExtra("key", groupId)
+            startActivity(intent)
+        }
 
 
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
@@ -73,13 +85,13 @@ class GroupChatActivity : AppCompatActivity() {
         reference!!.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val groupChat = snapshot.getValue(GroupI::class.java)
-                binding.convGroupName.text = groupChat!!.group
+                binding.convGroupName.text = groupChat?.group
 //                Glide.with(this@GroupChatActivity).load(groupChat!!.profile)
 //                    .into(binding.imgProfilePic)
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO()
+                Log.d("GroupChatActivity", error.message)
             }
         })
 
@@ -152,8 +164,7 @@ class GroupChatActivity : AppCompatActivity() {
             }
             R.id.deleteGroup -> {
                 // Handle the delete group option
-                Toast.makeText(this, "You have deleted the group", Toast.LENGTH_SHORT).show()
-                finish()
+               showDeleteGroupDialog(this@GroupChatActivity)
             }
             R.id.groupSettings -> {
                 // Handle the edit group option
@@ -163,6 +174,41 @@ class GroupChatActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    fun showDeleteGroupDialog(context: Context) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle("Delete Group")
+            .setMessage("Are you sure you want to delete this group?")
+            .setPositiveButton("Delete") { dialog, which ->
+                // Handle delete group action
+                // Add your logic to delete the group or any other action
+                deleteGroup(groupId, context)
+
+            }
+            .setNegativeButton("Cancel") { dialog, which ->
+                // Dismiss the dialog if "No" is clicked
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    fun deleteGroup(groupId: String, context: Context) {
+        val databaseReference = FirebaseDatabase.getInstance().getReference("Groups").child(groupId)
+
+        // Remove the group node
+        databaseReference.removeValue()
+            .addOnSuccessListener {
+                // Group deletion successful
+                // You can perform additional actions if needed
+                finish()
+                Toast.makeText(context, "Group deleted!", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { e ->
+                // Handle errors if the deletion fails
+                // Log the error or show a message to the user
+            }
+    }
+
 
     private fun sendGroupMessage(
         senderId: String,

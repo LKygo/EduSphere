@@ -12,9 +12,9 @@
         android:title="@string/title_resources" />
 
     <item
-        android:id="@+id/navigation_search"
-        android:icon="@drawable/search"
-        android:title="@string/title_search" />
+        android:id="@+id/navigation_todo"
+        android:icon="@drawable/tasklist"
+        android:title="@string/title_task" />
 
     <item
         android:id="@+id/navigation_profile"

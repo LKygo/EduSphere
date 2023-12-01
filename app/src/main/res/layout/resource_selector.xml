@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/_14ssp">
+
+    <TextView
+        android:id="@+id/txvSelectResource"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Resource From"
+        android:textColor="@color/white_700"
+        android:textSize="@dimen/_14ssp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/btn_camera"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginTop="@dimen/_14ssp"
+        android:background="@drawable/bg_icon"
+        android:padding="12dp"
+        android:src="@drawable/icon_camera"
+        android:text="Camera"
+        app:layout_constraintEnd_toStartOf="@+id/btn_gallery"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txvSelectResource" />
+
+    <ImageView
+        android:id="@+id/btn_gallery"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:background="@drawable/bg_icon"
+        android:padding="12dp"
+        android:src="@drawable/icon_gallery"
+        android:text="Gallery"
+        app:layout_constraintEnd_toStartOf="@+id/btn_document"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_camera"
+        app:layout_constraintTop_toTopOf="@id/btn_camera"
+        tools:layout_editor_absoluteY="61dp" />
+
+
+    <ImageView
+        android:id="@+id/btn_document"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:background="@drawable/bg_icon"
+        android:padding="12dp"
+        android:src="@drawable/icon_document"
+        android:text="Gallery"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_gallery"
+        app:layout_constraintTop_toTopOf="@id/btn_camera"
+        tools:layout_editor_absoluteY="61dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Camera"
+        app:layout_constraintEnd_toEndOf="@id/btn_camera"
+        app:layout_constraintStart_toStartOf="@id/btn_camera"
+        app:layout_constraintTop_toBottomOf="@id/btn_camera" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gallery"
+        app:layout_constraintEnd_toEndOf="@id/btn_gallery"
+        app:layout_constraintStart_toStartOf="@id/btn_gallery"
+        app:layout_constraintTop_toBottomOf="@id/btn_gallery" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Documents"
+        app:layout_constraintEnd_toEndOf="@id/btn_document"
+        app:layout_constraintStart_toStartOf="@id/btn_document"
+        app:layout_constraintTop_toBottomOf="@id/btn_document" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

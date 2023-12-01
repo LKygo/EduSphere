@@ -87,6 +87,7 @@ class MessagingFragment : Fragment() {
         // Create dialog to get group name
         val dialog =
             AlertDialog.Builder(requireContext(), R.style.AlertDialog).setTitle("Create Group")
+
         val groupName = EditText(requireContext())
         groupName.hint = "Group Name"
 
@@ -94,23 +95,24 @@ class MessagingFragment : Fragment() {
         dialog.setMessage("Enter group name").setPositiveButton("Create",
             DialogInterface.OnClickListener() { dialogInterface: DialogInterface, i: Int ->
                 val groupN = groupName.text.toString()
+                val groupA = ""
                 if (groupN.isEmpty()) {
                     Toast.makeText(
                         requireContext(), "Please enter a group name", Toast.LENGTH_SHORT
                     ).show()
                 } else {
-                    createNewGroup(groupN)
+                    createNewGroup(groupN, groupA)
                 }
             }).setNegativeButton("Cancel",
             DialogInterface.OnClickListener() { dialogInterface: DialogInterface, i: Int ->
                 dialogInterface.cancel()
             })
-        dialog.show()
 
+        dialog.show()
 
     }
 
-    private fun createNewGroup(groupN: String) {
+    private fun createNewGroup(groupN: String, groupAbout: String) {
         // Get the current user's ID
         val userId = FirebaseAuth.getInstance().currentUser?.uid
 
@@ -123,7 +125,7 @@ class MessagingFragment : Fragment() {
 
 // Clean key path and remove invalid characters
         val sanitizedKey = newGroupRef.key?.replace("[.#$]".toRegex(), "")
-        val groupInfo = GroupI(sanitizedKey!!, groupN)
+        val groupInfo = GroupI(sanitizedKey!!, groupN, groupAbout)
 
         // Set the value of the new group in the database
         newGroupRef.setValue(groupInfo)
@@ -139,7 +141,9 @@ class MessagingFragment : Fragment() {
             .setValue(members).addOnCompleteListener {
                 if (it.isSuccessful) {
                     Toast.makeText(
-                        requireContext(), "$groupN has been successfully created", Toast.LENGTH_SHORT
+                        requireContext(),
+                        "$groupN has been successfully created",
+                        Toast.LENGTH_SHORT
                     ).show()
                 } else {
                     Toast.makeText(requireContext(), "Error creating group", Toast.LENGTH_SHORT)
