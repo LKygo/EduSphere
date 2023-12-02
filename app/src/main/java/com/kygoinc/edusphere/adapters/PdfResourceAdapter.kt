@@ -24,6 +24,7 @@ class PdfResourceAdapter(private val context: Context, private val pdfList: Arra
 //        val pdfIcon: ImageView = view.findViewById(R.id.imgPdfIcon)
         val cardView: CardView = view.findViewById(R.id.cardDocument)
         val btnDownload : ImageView = view.findViewById(R.id.imgDownloadDocument)
+        val pdfDescription : TextView = view.findViewById(R.id.txtDocumentDescription)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -35,7 +36,8 @@ class PdfResourceAdapter(private val context: Context, private val pdfList: Arra
         val pdfResource = pdfList[position]
 
         // Set PDF name
-        holder.pdfName.text = pdfResource.name
+        holder.pdfName.text = pdfResource.title
+        holder.pdfDescription.text = pdfResource.description
 
         // Set PDF icon
 //        holder.pdfIcon.setImageResource(R.drawable.ic_pdf_icon)

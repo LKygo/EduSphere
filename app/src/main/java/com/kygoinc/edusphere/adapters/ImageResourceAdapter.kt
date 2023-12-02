@@ -5,26 +5,35 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Environment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.kygoinc.edusphere.R
 import com.kygoinc.edusphere.models.ImageResource
 
 // ImageResourceAdapter.kt
 class ImageResourceAdapter(
     private val context: Context,
-    private val imageList: ArrayList<ImageResource>
+    private val imageList: ArrayList<ImageResource>,
+    var firebaseUser: FirebaseUser? = null
 ) :
     RecyclerView.Adapter<ImageResourceAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val imageView: ImageView = view.findViewById(R.id.imgResource)
+        val imageView: ImageView = view.findViewById(R.id.imgResourceImage)
         val btnDownload: ImageView = view.findViewById(R.id.imgDownloadImage)
+        val title: TextView = view.findViewById(R.id.txvTitle)
+        val description: TextView = view.findViewById(R.id.txvDescription)
+        val btnEdit: ImageView = view.findViewById(R.id.imgEditImage)
+        val btnDelete: ImageView = view.findViewById(R.id.imgDeleteImage)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -35,10 +44,13 @@ class ImageResourceAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         // Load image into ImageView using a library like Glide or Picasso
         val imageResource = imageList[position]
+        val senderId = imageResource.senderId
+        holder.title.text = imageResource.title
+        holder.description.text = imageResource.description
         Glide.with(context).load(imageResource.image).into(holder.imageView)
 
         // Set click listener or any additional logic if needed
-        holder.itemView.setOnClickListener {
+        holder.imageView.setOnClickListener {
             // Handle item click
             // You can open a detailed view or perform any other action
             openImageExternally(context, imageResource.image)
@@ -53,6 +65,47 @@ class ImageResourceAdapter(
             Toast.makeText(context, "Resource download started...", Toast.LENGTH_SHORT).show()
             downloadMedia(context, imageResource.image, fileName, title, description)
         }
+
+        holder.btnEdit.setOnClickListener {
+            // Handle item click
+            // You can open a detailed view or perform any other action
+            Toast.makeText(context, "Edit button clicked", Toast.LENGTH_SHORT).show()
+            editImage(context, senderId)
+        }
+        holder.btnDelete.setOnClickListener {
+            // Handle item click
+            // You can open a detailed view or perform any other action
+            Toast.makeText(context, "Delete button clicked", Toast.LENGTH_SHORT).show()
+            deleteImage(context, senderId)
+        }
+    }
+    private fun deleteImage(context: Context, senderId: String) {
+        firebaseUser = FirebaseAuth.getInstance().currentUser
+        val currentUserId = firebaseUser?.uid ?: ""
+        Log.d("GroupChatAdapter", "CurrentUserId: $currentUserId, SenderId: $senderId")
+
+        return if (senderId == currentUserId) {
+            Toast.makeText(context, "Delete button clicked", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "You can only delete your own resources", Toast.LENGTH_SHORT)
+                .show()
+        }
+
+    }
+
+    private fun editImage(context: Context, senderId: String) {
+        firebaseUser = FirebaseAuth.getInstance().currentUser
+        val currentUserId = firebaseUser?.uid ?: ""
+        Log.d("GroupChatAdapter", "CurrentUserId: $currentUserId, SenderId: $senderId")
+
+        return if (senderId == currentUserId) {
+            Toast.makeText(context, "Edit button clicked", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "You can only edit your own resources", Toast.LENGTH_SHORT)
+                .show()
+        }
+
+
     }
 
     fun downloadMedia(context: Context, mediaUrl: String, fileName: String, title: String, description: String) {

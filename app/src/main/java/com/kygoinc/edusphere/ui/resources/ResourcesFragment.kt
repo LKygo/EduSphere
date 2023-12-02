@@ -56,6 +56,8 @@ class ResourcesFragment : Fragment() {
     private var documentUri: Uri? = null
     private var tags: String? = null
     private val uid = FirebaseAuth.getInstance().uid
+    private var title : String = ""
+    private var description : String = ""
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -226,17 +228,41 @@ class ResourcesFragment : Fragment() {
             .setView(dialogView)
             .create()
 
+        val editTitle = dialogView.findViewById<EditText>(R.id.editResourceTitle)
+        val editDescription = dialogView.findViewById<EditText>(R.id.editResourceDescription)
         val editTextTags = dialogView.findViewById<EditText>(R.id.editTextTags)
+
         val buttonSave = dialogView.findViewById<Button>(R.id.buttonSave)
 
         buttonSave.setOnClickListener {
             // Get the entered tags
             tags = editTextTags.text.toString()
+            title = editTitle.text.toString()
+            description = editDescription.text.toString()
 
             Log.d("docTags", "Entered tags: $tags")
             Log.d("docTags", "Entered tags: $documentUri")
+
+            if ( title.isEmpty()) {
+                Toast.makeText(
+                    requireContext(),
+                    "Please enter a title",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+
+            if (tags!!.isEmpty() || title.isEmpty()) {
+                Toast.makeText(
+                    requireContext(),
+                    "Please enter at least one tag",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+
             when (filetype) {
-                "camera" -> uploadImageToFirebaseStorage(filePath!!, tags!!.split(","))
+                "camera" -> uploadImageToFirebaseStorage(filePath!!,tags!!.split(","))
                 "image" -> uploadImageToFirebaseStorage(galleryImageUri!!, tags!!.split(","))
                 "video" -> uploadVideoToFirestore(galleryVideoUri!!, tags!!.split(","))
                 "document" -> uploadDocumentToFirebaseStorage(documentUri!!, tags!!.split(","))
@@ -382,7 +408,7 @@ class ResourcesFragment : Fragment() {
             .addOnSuccessListener { taskSnapshot ->
                 storageRef.downloadUrl.addOnSuccessListener { downloadUrl ->
                     if (uid != null) {
-                        saveImageToDatabase(downloadUrl.toString(), tags, uid)
+                        saveImageToDatabase(downloadUrl.toString(),title, description, tags, uid)
                     }
                 }
             }
@@ -392,12 +418,14 @@ class ResourcesFragment : Fragment() {
     }
 
     // Save image information to the Realtime Database
-    private fun saveImageToDatabase(downloadUrl: String, tags: List<String>, uid: String) {
+    private fun saveImageToDatabase(downloadUrl: String, title: String, description: String, tags: List<String>, uid: String) {
         val databaseRef = FirebaseDatabase.getInstance().getReference("/resources/images").push()
 
         val resourceData = hashMapOf(
             "image" to downloadUrl,
             "senderId" to uid,
+            "title" to title,
+            "description" to description,
             "tags" to tags
             // Add any other information you want to store
         )
@@ -436,7 +464,7 @@ class ResourcesFragment : Fragment() {
                 videoFileReference.downloadUrl.addOnSuccessListener { downloadUri ->
                     // Video download URL obtained, now store the entry in the Realtime Database
                     if (uid != null) {
-                        storeVideoEntryInDatabase(videoId, downloadUri.toString(), tags, uid)
+                        storeVideoEntryInDatabase(videoId, downloadUri.toString(), title, description, tags, uid)
                     }
                 }.addOnFailureListener { exception ->
                     // Handle failure to get video download URL
@@ -452,6 +480,8 @@ class ResourcesFragment : Fragment() {
     private fun storeVideoEntryInDatabase(
         videoId: String,
         videoUrl: String,
+        title: String,
+        description: String,
         tags: List<String>,
         uid: String
     ) {
@@ -462,6 +492,8 @@ class ResourcesFragment : Fragment() {
         val videoEntry = hashMapOf(
             "type" to "video",
             "url" to videoUrl,
+            "title" to title,
+            "description" to description,
             "senderId" to uid, // Replace with the actual sender ID
             "tags" to tags
         )
@@ -498,7 +530,7 @@ class ResourcesFragment : Fragment() {
             .addOnSuccessListener { taskSnapshot ->
                 storageRef.downloadUrl.addOnSuccessListener { downloadUrl ->
                     if (uid != null) {
-                        saveDocumentToDatabase(downloadUrl.toString(), tags, uid)
+                        saveDocumentToDatabase(downloadUrl.toString(), title, description, tags, uid)
                     }
                 }
             }
@@ -507,12 +539,14 @@ class ResourcesFragment : Fragment() {
             }
     }
 
-    private fun saveDocumentToDatabase(downloadUrl: String, tags: List<String>, uid: String) {
+    private fun saveDocumentToDatabase(downloadUrl: String, title : String, description: String, tags: List<String>, uid: String) {
         val databaseRef = FirebaseDatabase.getInstance().getReference("/resources/documents").push()
 
         val resourceData = hashMapOf(
             "document" to downloadUrl,
             "senderId" to uid,
+            "title" to title,
+            "description" to description,
             "tags" to tags,
             // Add any other information you want to store
         )

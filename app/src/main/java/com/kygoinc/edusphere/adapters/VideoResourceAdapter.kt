@@ -5,13 +5,17 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Environment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.kygoinc.edusphere.R
 import com.kygoinc.edusphere.models.ImageResource
 import com.kygoinc.edusphere.models.VideoResource
@@ -19,7 +23,9 @@ import com.kygoinc.edusphere.models.VideoResource
 // ImageResourceAdapter.kt
 class VideoResourceAdapter(
     private val context: Context,
-    private val videoList: ArrayList<VideoResource>
+    private val videoList: ArrayList<VideoResource>,
+    var firebaseuser: FirebaseUser? = null
+
 ) :
     RecyclerView.Adapter<VideoResourceAdapter.ViewHolder>() {
 
@@ -27,6 +33,10 @@ class VideoResourceAdapter(
         val imageView: ImageView = view.findViewById(R.id.imgResource)
         val btnPlay: ImageView = view.findViewById(R.id.playVideo)
         val btnDownload: ImageView = view.findViewById(R.id.imgDownloadVideo)
+        val title: TextView = view.findViewById(R.id.txvTitle)
+        val description: TextView = view.findViewById(R.id.txvDescription)
+        val btnEdit: ImageView = view.findViewById(R.id.btnEditImage)
+        val btnDelete: ImageView = view.findViewById(R.id.btnDeleteImage)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -37,6 +47,9 @@ class VideoResourceAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         // Load image into ImageView using a library like Glide or Picasso
         val videoResource = videoList[position]
+        val senderId = videoResource.senderId
+        holder.title.text = videoResource.title
+        holder.description.text = videoResource.description
         Glide.with(context).load(videoResource.url).into(holder.imageView)
 
         // Set click listener or any additional logic if needed
@@ -56,6 +69,47 @@ class VideoResourceAdapter(
 
             Toast.makeText(context, "Resource download started...", Toast.LENGTH_SHORT).show()
         }
+        holder.btnEdit.setOnClickListener {
+            // Handle item click
+            // You can open a detailed view or perform any other action
+            Toast.makeText(context, "Edit button clicked", Toast.LENGTH_SHORT).show()
+            editImage(context, senderId)
+        }
+        holder.btnDelete.setOnClickListener {
+            // Handle item click
+            // You can open a detailed view or perform any other action
+            Toast.makeText(context, "Delete button clicked", Toast.LENGTH_SHORT).show()
+            deleteImage(context, senderId)
+        }
+    }
+
+    private fun deleteImage(context: Context, senderId: String) {
+        firebaseuser = FirebaseAuth.getInstance().currentUser
+        val currentUserId = firebaseuser?.uid ?: ""
+        Log.d("GroupChatAdapter", "CurrentUserId: $currentUserId, SenderId: $senderId")
+
+        return if (senderId == currentUserId) {
+            Toast.makeText(context, "Delete button clicked", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "You can only delete your own resources", Toast.LENGTH_SHORT)
+                .show()
+        }
+
+    }
+
+    private fun editImage(context: Context, senderId: String) {
+        firebaseuser = FirebaseAuth.getInstance().currentUser
+        val currentUserId = firebaseuser?.uid ?: ""
+        Log.d("GroupChatAdapter", "CurrentUserId: $currentUserId, SenderId: $senderId")
+
+        return if (senderId == currentUserId) {
+            Toast.makeText(context, "Edit button clicked", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "You can only edit your own resources", Toast.LENGTH_SHORT)
+                .show()
+        }
+
+
     }
 
     fun downloadMedia(

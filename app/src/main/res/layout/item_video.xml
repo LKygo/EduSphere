@@ -1,24 +1,20 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_10sdp"
-        android:layout_marginVertical="28dp"
-        android:layout_margin="@dimen/_14ssp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:cardCornerRadius="8dp"
-        android:paddingBottom="@dimen/_14ssp"
-        app:cardElevation="@dimen/_60sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent">
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_14ssp"
+    android:layout_marginHorizontal="@dimen/_10sdp"
+    android:layout_marginVertical="28dp"
+    android:paddingBottom="@dimen/_14ssp"
+    app:cardCornerRadius="8dp"
+    android:id="@+id/cardDocument"
+    app:cardElevation="@dimen/_60sdp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -69,7 +65,7 @@
 
             <TextView
                 android:id="@+id/txvTitle"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_12ssp"
                 android:layout_marginTop="@dimen/_18sdp"
@@ -77,26 +73,45 @@
                 android:textColor="@color/blue_500"
                 android:textSize="@dimen/_14ssp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btnDeleteImage"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/imgResourceContainer" />
 
             <TextView
                 android:id="@+id/txvDescription"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_12ssp"
                 android:layout_marginTop="@dimen/_4sdp"
                 android:text="This is a brief description of the resource displayed."
                 android:textSize="@dimen/_10ssp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/txvTitle"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txvTitle" />
+
+            <ImageView
+                android:id="@+id/btnEditImage"
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:src="@drawable/edit"
+                app:layout_constraintBottom_toTopOf="@+id/btnDeleteImage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgResourceContainer" />
+
+            <ImageView
+                android:id="@+id/btnDeleteImage"
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:src="@drawable/icon_delete"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnEditImage" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
