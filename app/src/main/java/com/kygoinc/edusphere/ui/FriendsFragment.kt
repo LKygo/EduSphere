@@ -27,10 +27,7 @@ class FriendsFragment : Fragment() {
     private lateinit var userRecyclerView : RecyclerView
     private val binding get() = _binding!!
     var userList = ArrayList<User>()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

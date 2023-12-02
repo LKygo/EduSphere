@@ -8,6 +8,7 @@ import android.net.Uri
 import android.nfc.Tag
 import android.os.Bundle
 import android.os.Environment
+import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
@@ -48,10 +49,8 @@ class ResourcesFragment : Fragment() {
     private var _binding: FragmentResourcesBinding? = null
     private val REQUEST_GALLERY_PERMISSION = 22
     private val REQUEST_IMAGE_CAPTURE = 39
-    private val REQUEST_EXTERNAL_WRITE_PERMISSION = 33
-    private val DOCUMENT_PERMISSION_CODE = 33
+    private val REQUEST_DOCUMENT_PERMISSION = 33
     private var filePath: Uri? = null
-    private var currentPhotoPath: Uri? = null
     private var galleryImageUri: Uri? = null
     private var galleryVideoUri: Uri? = null
     private var documentUri: Uri? = null
@@ -114,9 +113,8 @@ class ResourcesFragment : Fragment() {
 
         btnDocument.setOnClickListener {
             // Handle gallery button click
-//                requestGalleryPermission()
-//                alertDialog.dismiss()
-            Toast.makeText(requireContext(), "Document", Toast.LENGTH_SHORT).show()
+            openDocumentPicker()
+            alertDialog.dismiss()
         }
 
         alertDialog.show()
@@ -128,37 +126,31 @@ class ResourcesFragment : Fragment() {
         startActivityForResult(intent, REQUEST_GALLERY_PERMISSION)
     }
 
-    //    Handle gallery requests
-    private fun requestGalleryPermission() {
+    private fun requestDocumentPermission() {
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
-                android.Manifest.permission.READ_MEDIA_IMAGES
-            ) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-                requireContext(),
-                android.Manifest.permission.READ_MEDIA_VIDEO
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             ActivityCompat.requestPermissions(
                 requireActivity(),
-                arrayOf(
-                    android.Manifest.permission.READ_MEDIA_IMAGES,
-                    android.Manifest.permission.READ_MEDIA_VIDEO
-                ),
-                REQUEST_GALLERY_PERMISSION
+                arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                REQUEST_DOCUMENT_PERMISSION
             )
-            Log.d("gallery", "requestGalleryPermission: called")
         } else {
-            Log.d("gallery", "openGallery: called by request permission")
-            openGallery()
+            openDocumentPicker()
         }
     }
 
-    private fun openGallery() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, REQUEST_GALLERY_PERMISSION)
-        Log.d("gallery", "openGallery: called")
+    private fun openDocumentPicker() {
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+//        Include document
+        intent.type = "application/pdf"
+
+        startActivityForResult(intent, REQUEST_DOCUMENT_PERMISSION)
     }
+
 
     //    Handle camera requests
     private fun requestCameraPermission() {
@@ -219,7 +211,7 @@ class ResourcesFragment : Fragment() {
                     filePath = photoURI
                     if (filePath != null) {
                         Log.d("camera", "openCamera: $photoURI")
-                        showTagsDialog("image")
+                        showTagsDialog("camera")
                     }
 //                        binding.imgJobCardValidation.setBackgroundResource(R.drawable.check)
                 }
@@ -241,14 +233,18 @@ class ResourcesFragment : Fragment() {
             // Get the entered tags
             tags = editTextTags.text.toString()
 
+            Log.d("docTags", "Entered tags: $tags")
+            Log.d("docTags", "Entered tags: $documentUri")
             when (filetype) {
                 "camera" -> uploadImageToFirebaseStorage(filePath!!, tags!!.split(","))
                 "image" -> uploadImageToFirebaseStorage(galleryImageUri!!, tags!!.split(","))
                 "video" -> uploadVideoToFirestore(galleryVideoUri!!, tags!!.split(","))
+                "document" -> uploadDocumentToFirebaseStorage(documentUri!!, tags!!.split(","))
             }
             progressDialog.show()
             // Now you can use the tags for your logic (e.g., save to Firebase)
-            Log.d("Tags", "Entered tags: $tags")
+            Log.d("docTags", "Entered tags: $documentUri")
+            Log.d("docTags", "Entered tags: $tags")
 
             // Dismiss the dialog
             alertDialog.dismiss()
@@ -257,7 +253,6 @@ class ResourcesFragment : Fragment() {
         alertDialog.show()
     }
 
-//          onRequestPermissionResult for camera
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -267,19 +262,26 @@ class ResourcesFragment : Fragment() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         when (requestCode) {
-            REQUEST_GALLERY_PERMISSION -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Permission granted, open gallery
-                    openGallery()
-                } else {
-                    // Permission denied, show toast or handle as needed
-                    Toast.makeText(
-                        requireContext(),
-                        "Gallery permission required to select images",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
+//        REQUEST_DOCUMENT_PERMISSION -> {
+//            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                // Permission granted, open camera
+//                openDocumentPicker()
+//            } else {
+//                // Permission denied, show toast and request permission again when required
+//                Toast.makeText(
+//                    requireContext(),
+//                    "Permission to read external storage required",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//
+//                ActivityCompat.requestPermissions(
+//                    requireActivity(),
+//                    arrayOf(android.Manifest.permission.CAMERA),
+//                    REQUEST_DOCUMENT_PERMISSION
+//                )
+//
+//            }
+//        }
 
             REQUEST_IMAGE_CAPTURE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -354,11 +356,24 @@ class ResourcesFragment : Fragment() {
                     }
                 }
             }
+
+            REQUEST_DOCUMENT_PERMISSION -> {
+                if (resultCode == Activity.RESULT_OK && data != null) {
+                    documentUri = data.data!!
+
+                    // Now you can upload the document to Firebase or handle it as needed
+                    Log.d("Document", "Selected Document URI: $documentUri")
+
+                    showTagsDialog("document")
+
+//                    uploadDocumentToFirebaseStorage(documentUri)
+                }
+            }
         }
     }
 
     //    Firebase function to upload to storage
-    // Firebase function to upload image to storage
+// Firebase function to upload image to storage
     private fun uploadImageToFirebaseStorage(imageUri: Uri, tags: List<String>) {
         val filename = UUID.randomUUID().toString()
         val storageRef = FirebaseStorage.getInstance().getReference("/images/$filename")
@@ -402,7 +417,6 @@ class ResourcesFragment : Fragment() {
                 Log.e("Firebase", "Failed to store image information: $it")
             }
     }
-
 
     //    Upload video to firebase storage
     private fun uploadVideoToFirestore(videoUri: Uri, tags: List<String>) {
@@ -476,6 +490,48 @@ class ResourcesFragment : Fragment() {
             }
     }
 
+    private fun uploadDocumentToFirebaseStorage(documentUri: Uri, tags: List<String>) {
+        val filename = UUID.randomUUID().toString()
+        val storageRef = FirebaseStorage.getInstance().getReference("/documents/$filename")
+
+        storageRef.putFile(documentUri)
+            .addOnSuccessListener { taskSnapshot ->
+                storageRef.downloadUrl.addOnSuccessListener { downloadUrl ->
+                    if (uid != null) {
+                        saveDocumentToDatabase(downloadUrl.toString(), tags, uid)
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.e("Firebase", "Failed to upload document to Firebase Storage: $exception")
+            }
+    }
+
+    private fun saveDocumentToDatabase(downloadUrl: String, tags: List<String>, uid: String) {
+        val databaseRef = FirebaseDatabase.getInstance().getReference("/resources/documents").push()
+
+        val resourceData = hashMapOf(
+            "document" to downloadUrl,
+            "senderId" to uid,
+            "tags" to tags,
+            // Add any other information you want to store
+        )
+
+        databaseRef.setValue(resourceData)
+            .addOnSuccessListener {
+                progressDialog.dismiss()
+                Log.d("Firebase", "Document resource stored successfully")
+                Toast.makeText(
+                    requireContext(),
+                    "Document resource stored successfully",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            .addOnFailureListener {
+                progressDialog.dismiss()
+                Log.e("Firebase", "Failed to store document information: $it")
+            }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

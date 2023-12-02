@@ -15,11 +15,11 @@ class ResourcesViewPagerAdapter
     (fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fragmentManager, lifecycle) {
 
-        private val fragments = mutableListOf<Fragment>(
-            VideoResourcesFragment(),
-            ImageResourcesFragment(),
-            DocumentResourcesFragment()
-        )
+    private val fragments = mutableListOf<Fragment>(
+        ImageResourcesFragment(),
+        VideoResourcesFragment(),
+        DocumentResourcesFragment()
+    )
 
     override fun getItemCount(): Int {
         return fragments.size

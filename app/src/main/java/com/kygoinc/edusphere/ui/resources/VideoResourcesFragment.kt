@@ -1,60 +1,85 @@
 package com.kygoinc.edusphere.ui.resources
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.kygoinc.edusphere.R
+import com.kygoinc.edusphere.adapters.ImageResourceAdapter
+import com.kygoinc.edusphere.adapters.VideoResourceAdapter
+import com.kygoinc.edusphere.databinding.FragmentImageResourcesBinding
+import com.kygoinc.edusphere.databinding.FragmentVideoResourcesBinding
+import com.kygoinc.edusphere.models.ImageResource
+import com.kygoinc.edusphere.models.VideoResource
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [VideoResourcesFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class VideoResourcesFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private lateinit var videoResourceAdapter: VideoResourceAdapter
+    private lateinit var videoResourceRecyclerView: RecyclerView
+    private lateinit var binding: FragmentVideoResourcesBinding
+    private var videoResourceList: ArrayList<VideoResource> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_video_resources, container, false)
+        binding = FragmentVideoResourcesBinding.inflate(inflater, container, false)
+        val view = binding.root
+
+
+        // Initialize RecyclerView and its adapter
+        videoResourceRecyclerView = binding.rcvViewVideoResources
+        videoResourceRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        videoResourceAdapter = VideoResourceAdapter(requireContext(), videoResourceList)
+        videoResourceRecyclerView.adapter = videoResourceAdapter
+
+        // Fetch data from resources and add to imageResourceList
+        fetchVideoResources {
+            Log.d("ImageResourcesFragment", "ImageResourceList: $videoResourceList")
+            videoResourceAdapter.notifyDataSetChanged() // Notify adapter when data changes
+        }
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment VideoResourcesFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            VideoResourcesFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun fetchVideoResources(callback: (List<VideoResource>) -> Unit) {
+        val databaseRef = FirebaseDatabase.getInstance().getReference("/resources/videos")
+
+        databaseRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                videoResourceList.clear()
+
+                for (dataSnapshot in snapshot.children) {
+                    val imageResource = dataSnapshot.getValue(VideoResource::class.java)
+                    imageResource?.let {
+                        videoResourceList.add(it)
+//                        Reverse order of the list
+                        videoResourceList.reverse()
+                    }
+
                 }
+                callback.invoke(videoResourceList)
             }
+            override fun onCancelled(error: DatabaseError) {
+                // Handle the error
+                callback.invoke(emptyList())
+            }
+        })
     }
+
+
 }

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_14ssp"
+    android:layout_marginHorizontal="@dimen/_10sdp"
+    android:layout_marginVertical="28dp"
+    android:paddingBottom="@dimen/_14ssp"
+    app:cardCornerRadius="8dp"
+    android:id="@+id/cardDocument"
+    app:cardElevation="@dimen/_60sdp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <!-- Your document item layout goes here -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/_16sdp">
+
+        <!-- Add your document-related views (e.g., TextViews, ImageView) here -->
+        <ImageView
+            android:id="@+id/imgPDFIcon"
+            android:layout_width="@dimen/_48sdp"
+            android:layout_height="@dimen/_48sdp"
+            android:src="@drawable/icon_pdf"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/txtDocumentTitle"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Document Title"
+            app:layout_constraintStart_toEndOf="@id/imgPDFIcon"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imgDownloadDocument"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
+            android:layout_gravity="bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:padding="@dimen/_4sdp"
+            android:src="@drawable/round_file_download_white_48"
+            android:background="@drawable/bg_icon"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
